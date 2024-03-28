@@ -19,8 +19,8 @@ class DocumentosTableSeeder extends Seeder
             $claveAleatoria = array_rand($relevancia);
             $valorRelevancia = $relevancia[$claveAleatoria];
 
-            $numAleatorioSubida = rand(0,15);
-            $numAleatorioAprobacion = rand(16,31);
+            $numAleatorioSubida = rand(366,730);
+            $numAleatorioAprobacion = rand(1,365);
 
             $documento = [
                 'nombre' => 'Documento '.$i,
