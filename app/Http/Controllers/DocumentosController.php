@@ -20,13 +20,50 @@ class DocumentosController extends Controller
         $this->userRol = Auth::user()->getRoleNames()->first();
     }
 
-
-    public function index(): View
+    public function getRol(): JsonResponse
     {
-        return view('documentos.index');     
+        return new JsonResponse([
+            "rol" => $this->userRol
+        ]);
     }
 
-    public function listar()
+    public function listar(): View
+    {
+        return view('documentos.listar');     
+    }
+
+    public function crear(): View
+    {
+        return view('documentos.crear');     
+    }    
+
+    public function editar($id)
+    {
+        //check rol usuario
+        if($this->userRol){
+
+            $datos = Documentos::find($id)->toArray();
+
+            return view('documentos.editar', [
+                'datos' => $datos
+            ]); 
+        }        
+    }
+    
+    public function eliminar($id)
+    {
+        //check rol usuario
+        if($this->userRol){
+
+            $datos = Documentos::find($id)->toArray();
+
+            return view('documentos.eliminar', [
+                'datos' => $datos
+            ]);  
+        }       
+    }    
+
+    public function getDocumentos()
     {
         //check rol usuario
         if($this->userRol){
@@ -41,7 +78,7 @@ class DocumentosController extends Controller
 
             return view('dashboard');
         }    
-    } 
+    }   
     
     public function relevancia(): View
     {

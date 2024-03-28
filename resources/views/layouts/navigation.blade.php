@@ -32,7 +32,7 @@
                         </x-slot>
     
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('documentos.index')" :active="request()->routeIs('documentos.index')">
+                            <x-dropdown-link :href="route('documentos.listar')" :active="request()->routeIs('documentos.listar')">
                                 {{ __('Listado') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('documentos.relevancia')" :active="request()->routeIs('documentos.relevancia')">

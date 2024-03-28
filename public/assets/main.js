@@ -3,52 +3,98 @@
 //---documentReadyOpen
 $(document).ready(function() {
 
+    //variable que muestra los botones de editar,eliminar si es administrador
+    var verActions;
 
-//dataTable listado documentos. Route: resources/views/documentos/index
-    let tabla = $('#datos').DataTable({
-            ajax: {
-                url: "/listar",
-                dataSrc: "datos",
-            },  
-            columns: [
-                { data: 'id', visible: false}, //0
-                { data: 'nombre' }, //1
-                { data: 'descripcion' }, //2
-                { data: 'relevancia' }, //3
-                { data: 'fecha_aprobacion', //4
-                    render: function(data) {
-                        return new Date(data).toLocaleDateString() 
-                    }                                        
-                },
-                { data: 'fecha_subida', //5
-                    render: function(data) {
-                        return new Date(data).toLocaleDateString() 
-                    } 
-                },
-                { data: 'documento_pdf' }, //6                                                                     
-            ],
-            order: [
-                [0, 'asc']
-            ]                                
+    //obtengo el rol de forma asíncrona
+    async function getRol(){
+        try{
+            let request = await fetch('/getRol');
+            if (!request.ok) {
+                throw new Error(`HTTP error! Status: ${request.status}`);
+            }
+
+            return request.json()
+
+        } catch (error){
+            console.error('Error:', error);            
+        }
+    }
+    
+    //manejo la respuesta asíncrona para gestionar el rol y pintar la tabla
+    getRol()
+        //OK
+        .then(response => {
+            console.log(response.rol);
+            (response.rol == 'Administración') ? verActions = true : verActions = false;           
+            
+            //dataTable listado documentos. Route: resources/views/documentos/index
+            let botones;
+            let tabla = $('#datos').DataTable({
+                ajax: {
+                    url: "/documentos/getDocumentos",
+                    dataSrc: "datos",
+                },  
+                columns: [
+                    { data: 'id', visible: false}, //0
+                    { data: 'nombre' }, //1
+                    { data: 'descripcion' }, //2
+                    { data: 'relevancia' }, //3
+                    { data: 'fecha_aprobacion', //4
+                        render: function(data) {
+                            return new Date(data).toLocaleDateString() 
+                        }                                        
+                    },
+                    { data: 'fecha_subida', //5
+                        render: function(data) {
+                            return new Date(data).toLocaleDateString() 
+                        } 
+                    },
+                    { data: 'documento_pdf', //6
+                        render: function(data) {
+                            return `<a title="Ver ${data}" href="/storage/${data}">${data}</a>`; 
+                        }                 
+                    },               
+                    { data: null, visible: verActions, //7                   
+                        render: function(row) {
+                            botones = `<div class='botones'>
+                                            <a title="Editar" href="/documentos/editar/${row.id}">Editar</a> 
+                                            <a title="Borrar" href="/documentos/eliminar/${row.id}">Eliminar</a>
+                                    </div>`;
+                            return botones; 
+                        }                 
+                    }                                                                                    
+                ],
+                order: [
+                    [0, 'asc']
+                ]                                
+            });
+    
+            //filtro relevancia
+            $('#filtro-relevancia').on('change', function() {
+                let relevancia = $(this).val();
+                tabla.column(3).search(relevancia).draw(); 
+            });
+        
+            //filtro fecha aprobación
+            $('#filtro-fecha-aprobacion').on('input', function() {
+                let fAprobacion = $(this).val();
+                tabla.column(4).search(fAprobacion).draw(); 
+            });
+            
+            //filtro fecha subida
+            $('#filtro-fecha-subida').on('input', function() {
+                let fSubida = $(this).val();
+                tabla.column(5).search(fSubida).draw(); 
+            });
+
+
+        //KO
+        })
+        .catch(error => {
+            console.error("Error obtener rol:", error)
         });
 
-    //filtro relevancia
-    $('#filtro-relevancia').on('change', function() {
-        let relevancia = $(this).val();
-        tabla.column(3).search(relevancia).draw(); 
-    });
-
-    //filtro fecha aprobación
-    $('#filtro-fecha-aprobacion').on('input', function() {
-        let fAprobacion = $(this).val();
-        tabla.column(4).search(fAprobacion).draw(); 
-    });
-    
-    //filtro fecha subida
-    $('#filtro-fecha-subida').on('input', function() {
-        let fSubida = $(this).val();
-        tabla.column(5).search(fSubida).draw(); 
-    });
 
 
 //---documentReadyClose

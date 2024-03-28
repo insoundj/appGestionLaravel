@@ -18,11 +18,15 @@ Route::middleware('auth')->group(function () {
     /*User*/
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     /*Documentos*/
-    Route::get('/documentos', [DocumentosController::class, 'index'])->name('documentos.index');
-    Route::get('/listar', [DocumentosController::class, 'listar'])->name('documentos.listar'); 
-    Route::get('/relevancia', [DocumentosController::class, 'relevancia'])->name('documentos.relevancia');
+    Route::get('/getRol', [DocumentosController::class, 'getRol'])->name('documentos.getRol');
+    Route::get('/documentos/listar', [DocumentosController::class, 'listar'])->name('documentos.listar');
+    Route::get('/documentos/getDocumentos', [DocumentosController::class, 'getDocumentos'])->name('documentos.getDocumentos');
+    Route::get('/documentos/crear', [DocumentosController::class, 'crear'])->name('documentos.crear'); 
+    Route::get('/documentos/editar/{id}', [DocumentosController::class, 'editar'])->name('documentos.editar');
+    Route::get('/documentos/eliminar/{id}', [DocumentosController::class, 'eliminar'])->name('documentos.eliminar');
+    Route::get('/documentos/relevancia', [DocumentosController::class, 'relevancia'])->name('documentos.relevancia');
     Route::get('/relevanciaData', [DocumentosController::class, 'relevanciaData'])->name('documentos.relevanciaData');
-    Route::get('/aprobados', [DocumentosController::class, 'aprobados'])->name('documentos.aprobados');   
+    Route::get('/documentos/aprobados', [DocumentosController::class, 'aprobados'])->name('documentos.aprobados');   
     Route::get('/aprobadosData', [DocumentosController::class, 'aprobadosData'])->name('documentos.aprobadosData');
 });
 

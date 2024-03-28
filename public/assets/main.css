@@ -2,3 +2,8 @@
 .contenidoGrafico{
     width: 50%;
 }
+
+.botones a{
+    padding: 4px;
+    border: 1px solid #ccc
+}
