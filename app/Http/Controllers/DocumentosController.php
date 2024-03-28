@@ -114,5 +114,6 @@ class DocumentosController extends Controller
 
             return view('dashboard');
         }     
-    }     
+    }
+    
 }
