@@ -14,9 +14,7 @@ class DocumentosController extends Controller
 {
     public function index(): View
     {
-
         return view('documentos.index');     
-
     }
 
     public function listar()
@@ -30,12 +28,24 @@ class DocumentosController extends Controller
             return new JsonResponse([
                 "datos" => $listarDocumentos
             ]);
-            
+
         }else{
 
             return view('dashboard');
-
         }    
+    } 
+    
+    public function relevancia(): View
+    {
 
+
+
+        return view('documentos.relevancia');     
+    }
+    
+    public function aprobados(): View
+    {
+
+        return view('documentos.aprobados');     
     }    
 }

@@ -10,6 +10,9 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        
+        <!--assets/main css-->
+        <link href="{{ asset('assets/main.css') }}" rel="stylesheet">
 
         <!--datatable-->
         <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css"> 
@@ -18,8 +21,9 @@
         <!--chart-->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+        <!--assets/main js-->
         <script src="{{ asset('assets/main.js') }}"></script>
-
+        
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>

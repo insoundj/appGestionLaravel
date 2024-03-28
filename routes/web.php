@@ -19,7 +19,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     /*Documentos*/
     Route::get('/documentos', [DocumentosController::class, 'index'])->name('documentos.index');
-    Route::get('/listar', [DocumentosController::class, 'listar'])->name('documentos.listar');    
+    Route::get('/listar', [DocumentosController::class, 'listar'])->name('documentos.listar'); 
+    Route::get('/relevancia', [DocumentosController::class, 'relevancia'])->name('documentos.relevancia');
+    Route::get('/aprobados', [DocumentosController::class, 'aprobados'])->name('documentos.aprobados');   
 });
 
 require __DIR__.'/auth.php';

@@ -1,7 +1,9 @@
 //resources/js/main.js
 
-//dataTable listado documentos. Ruta: resources/views/documentos/index
+//---documentReadyOpen
 $(document).ready(function() {
+
+//dataTable listado documentos. Route: resources/views/documentos/index
     let tabla = $('#datos').DataTable({
             ajax: {
                 url: "/listar",
@@ -47,4 +49,25 @@ $(document).ready(function() {
         tabla.column(5).search(fSubida).draw(); 
     });                              
 
+
+
+//graficoCircular documentos por relevancia. Route: resources/views/documentos/relevancia
+
+
+
+
+
+
+
+//graficoLineal documentos aprobados por mes. Route: resources/views/documentos/aprobados
+
+
+
+
+
+
+
+
+
+//---documentReadyClose
 });
