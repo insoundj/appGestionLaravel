@@ -18,7 +18,7 @@ class apiDocumentosController extends Controller
         ->orderBy('relevancia')
         ->get();          
 
-        //devolver json formateado para grafico
+        //devolver json 
         return new JsonResponse($sql);           
     }
 

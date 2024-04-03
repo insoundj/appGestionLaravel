@@ -42,10 +42,10 @@ class DocumentosController extends Controller
         //check rol usuario
         if($this->userRol){
 
-            $datos = Documentos::find($id)->toArray();
+            $datos = Documentos::findOrFail($id)->toArray();
 
             return view('documentos.editar', [
-                'datos' => $datos
+                'documento' => $datos
             ]); 
         }        
     }
@@ -55,13 +55,79 @@ class DocumentosController extends Controller
         //check rol usuario
         if($this->userRol){
 
-            $datos = Documentos::find($id)->toArray();
+            $datos = Documentos::findOrFail($id)->toArray();
 
             return view('documentos.eliminar', [
-                'datos' => $datos
-            ]);  
+                'documento' => $datos
+            ]); 
         }       
+    }
+
+    public function guardar(Request $request)
+    {
+        if($this->userRol){
+
+            if (isset($request->id)) {
+
+                $request->validate([
+                    'nombre' => 'required|string|max:255',
+                    'descripcion' => 'required|string',
+                    'relevancia' => 'required|string|in:Baja,Media,Alta',
+                    'documento_pdf' => 'file|mimes:pdf|max:2048',
+                ]);
+
+                //update
+                $documento = Documentos::findOrFail($request->id);
+                $documento->nombre = $request->nombre;
+                $documento->descripcion = $request->descripcion;
+                $documento->relevancia = $request->relevancia;
+                if(isset($request->aprobacion) && $request->aprobacion == 'on') {
+                    $documento->fecha_aprobacion = date('Y-m-d');
+                }
+            } else {
+
+                $request->validate([
+                    'nombre' => 'required|string|max:255',
+                    'descripcion' => 'required|string',
+                    'relevancia' => 'required|string|in:Baja,Media,Alta',
+                    'documento_pdf' => 'required|file|mimes:pdf|max:2048',
+                ]);
+
+                //insert
+                $documento = new Documentos();
+                $documento->nombre = $request->nombre;
+                $documento->descripcion = $request->descripcion;
+                $documento->relevancia = $request->relevancia;
+                $documento->fecha_subida = date('Y-m-d');
+            }
+
+
+            if ($request->hasFile('documento_pdf')) {
+                $archivo = $request->file('documento_pdf');
+                $nombre = $archivo->getClientOriginalName();
+                $saveDiskPublic = $archivo->storeAs('public', $nombre);
+                if ($saveDiskPublic){
+                    $documento->documento_pdf = $nombre;
+                }            
+            }
+          
+            $documento->save();
+
+            return redirect()->route('documentos.listar')->with('success', 'Documento '. (isset($request->id) ? 'actualizado' : 'creado') .' correctamente.');            
+        }    
     }    
+    
+    public function borrar(Request $request)
+    {
+        if($this->userRol){
+
+                //eliminar
+                $documento = Documentos::findOrFail($request->id);          
+                $documento->delete();
+
+            return redirect()->route('documentos.listar')->with('success', 'Documento eliminado correctamente.');            
+        }    
+    }         
 
     public function getDocumentos()
     {

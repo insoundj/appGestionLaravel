@@ -22,8 +22,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/documentos/listar', [DocumentosController::class, 'listar'])->name('documentos.listar');
     Route::get('/documentos/getDocumentos', [DocumentosController::class, 'getDocumentos'])->name('documentos.getDocumentos');
     Route::get('/documentos/crear', [DocumentosController::class, 'crear'])->name('documentos.crear'); 
+    Route::post('/documentos/guardar', [DocumentosController::class, 'guardar'])->name('documentos.guardar'); 
     Route::get('/documentos/editar/{id}', [DocumentosController::class, 'editar'])->name('documentos.editar');
     Route::get('/documentos/eliminar/{id}', [DocumentosController::class, 'eliminar'])->name('documentos.eliminar');
+    Route::post('/documentos/borrar', [DocumentosController::class, 'borrar'])->name('documentos.borrar'); 
     Route::get('/documentos/relevancia', [DocumentosController::class, 'relevancia'])->name('documentos.relevancia');
     Route::get('/relevanciaData', [DocumentosController::class, 'relevanciaData'])->name('documentos.relevanciaData');
     Route::get('/documentos/aprobados', [DocumentosController::class, 'aprobados'])->name('documentos.aprobados');   

@@ -76,7 +76,7 @@ CREATE TABLE `documentos` (
   `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `descripcion` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `relevancia` enum('Alta','Media','Baja') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `fecha_aprobacion` date NOT NULL,
+  `fecha_aprobacion` date NULL,
   `fecha_subida` date NOT NULL,
   `documento_pdf` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,

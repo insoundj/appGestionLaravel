@@ -42,7 +42,11 @@ $(document).ready(function() {
                     { data: 'relevancia' }, //3
                     { data: 'fecha_aprobacion', //4
                         render: function(data) {
-                            return new Date(data).toLocaleDateString() 
+                            if(data){
+                                return new Date(data).toLocaleDateString()
+                            }else{
+                                return ''
+                            }                          
                         }                                        
                     },
                     { data: 'fecha_subida', //5
